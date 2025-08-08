@@ -43,17 +43,9 @@ public class TestBase
         {
             case "chrome":
                 WebDriverManager.chromedriver().setup();
-                ChromeOptions options = new ChromeOptions();
 
-                options.addArguments("--disable-features=PasswordLeakDetection,PasswordManagerOnboarding");
-                options.addArguments("--disable-save-password-bubble");
-                Map<String, Object> prefs = new HashMap<>();
-                prefs.put("credentials_enable_service", false);
-                prefs.put("profile.password_manager_enabled", false);
-                options.setExperimentalOption("prefs", prefs);
+                ChromeOptions options = getChromeOptions ( );
 
-               /* options.addArguments("--disable-notifications");
-                options.setExperimentalOption("prefs", new HashMap<String, Object>() {{put("credentials_enable_service", false);put("profile.password_manager_enabled", false);}});*/
                 driver = new ChromeDriver(options);
                 break;
             case "fireFox":
@@ -74,5 +66,22 @@ public class TestBase
         driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(PAGE_LOAD_WAIT));
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(IMPLICIT_WAIT));
         driver.get(prop.getProperty("url"));
+    }
+
+    private static
+    ChromeOptions getChromeOptions ( ) {
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--disable-notifications");
+        options.addArguments("--start-maximized");
+        options.addArguments("--remote-allow-origins=*");
+        options.addArguments("--disable-popup-blocking");
+
+        // Disable password manager & password leak detection
+        Map<String, Object> prefs = new HashMap<>();
+        prefs.put("credentials_enable_service", false);
+        prefs.put("profile.password_manager_enabled", false);
+        prefs.put("profile.password_manager_leak_detection", false); // key for breach alert
+        options.setExperimentalOption("prefs", prefs);
+        return options;
     }
 }
