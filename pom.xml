@@ -8,10 +8,11 @@
   <packaging>jar</packaging>
 
   <name>ICBCRM</name>
-  <url>http://maven.apache.org</url>
 
   <properties>
       <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+      <maven.compiler.source>17</maven.compiler.source>
+      <maven.compiler.target>17</maven.compiler.target>
   </properties>
 
   <dependencies>
@@ -33,5 +34,19 @@
           <artifactId>selenium-java</artifactId>
           <version>4.17.0</version> <!-- 4.29.0 does not exist, using latest stable -->
       </dependency>
+
+
+      <dependency>
+          <groupId>org.apache.poi</groupId>
+          <artifactId>poi</artifactId>
+          <version>5.4.1</version>
+      </dependency>
+
+      <dependency>
+          <groupId>org.apache.poi</groupId>
+          <artifactId>poi-ooxml</artifactId>
+          <version>5.4.1</version>
+      </dependency>
+
   </dependencies>
 </project>

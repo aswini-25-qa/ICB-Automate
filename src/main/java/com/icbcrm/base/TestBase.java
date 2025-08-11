@@ -13,7 +13,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.ie.InternetExplorerDriver;
 
 import static com.icbcrm.util.TestUtil.IMPLICIT_WAIT;
 import static com.icbcrm.util.TestUtil.PAGE_LOAD_WAIT;
@@ -39,23 +38,22 @@ public class TestBase
 
     public static void initialization()
     {
-        switch (prop.getProperty("browser"))
+        String browser = prop.getProperty("browser").toLowerCase();
+        switch (browser)
         {
             case "chrome":
                 WebDriverManager.chromedriver().setup();
-
-                ChromeOptions options = getChromeOptions ( );
-
+                ChromeOptions options = new ChromeOptions();
+                options.addArguments("--disable-notifications");
                 driver = new ChromeDriver(options);
                 break;
-            case "fireFox":
+            case "firefox":
+                WebDriverManager.firefoxdriver().setup();
                 driver = new FirefoxDriver();
                 break;
-            case "edgeBrowser":
+            case "edge":
+                WebDriverManager.edgedriver().setup();
                 driver = new EdgeDriver();
-                break;
-            case "internetExplorer":
-                driver = new InternetExplorerDriver();
                 break;
             default:
                 throw new IllegalArgumentException("Invalid browser specified in configuration!");
@@ -66,22 +64,5 @@ public class TestBase
         driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(PAGE_LOAD_WAIT));
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(IMPLICIT_WAIT));
         driver.get(prop.getProperty("url"));
-    }
-
-    private static
-    ChromeOptions getChromeOptions ( ) {
-        ChromeOptions options = new ChromeOptions();
-        options.addArguments("--disable-notifications");
-        options.addArguments("--start-maximized");
-        options.addArguments("--remote-allow-origins=*");
-        options.addArguments("--disable-popup-blocking");
-
-        // Disable password manager & password leak detection
-        Map<String, Object> prefs = new HashMap<>();
-        prefs.put("credentials_enable_service", false);
-        prefs.put("profile.password_manager_enabled", false);
-        prefs.put("profile.password_manager_leak_detection", false); // key for breach alert
-        options.setExperimentalOption("prefs", prefs);
-        return options;
     }
 }
