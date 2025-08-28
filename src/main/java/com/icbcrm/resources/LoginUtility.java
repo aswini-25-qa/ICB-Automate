@@ -18,8 +18,10 @@ public class LoginUtility
             int rowCount = sheet.getLastRowNum();
             int colCount = sheet.getRow(0).getLastCellNum();
 
+            //Initialize 2D Object Array
             data = new Object[rowCount][colCount];
 
+            //Read Data from Sheet
             for (int i = 1; i <= rowCount; i++)
             {
                 Row row = sheet.getRow(i);
@@ -35,4 +37,6 @@ public class LoginUtility
         }
         return data;
     }
+
+
 }

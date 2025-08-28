@@ -2,52 +2,57 @@ package com.icbcrm.tests;
 
 import com.icbcrm.base.TestBase;
 import com.icbcrm.pages.LoginPage;
-import com.icbcrm.resources.LoginUtility;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.edge.EdgeDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import com.icbcrm.pages.ServicesPage;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.DataProvider;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
+
+import static sun.security.jgss.GSSUtil.login;
 
 public class LoginTest  extends TestBase
 {
+    //Instance Variables
     LoginPage loginPage ;
+    ServicesPage servicesPage;
 
     @BeforeMethod
-    public void openAdminPortal()
+    public void openLoginPortal()
     {
         initialization();
         loginPage = new LoginPage();
+        servicesPage=new ServicesPage();
     }
 
-    @DataProvider(name = "invalidLoginData")
+    public void openServicePortal()
+    {
+        initialization();
+        loginPage = new LoginPage();
+        servicesPage=new ServicesPage();
+    }
+   /* @DataProvider(name = "invalidLoginData")
     public Object[][] getInvalidLoginData()
     {
         return LoginUtility.getTestData(System.getProperty("user.dir")+"/src/main/java/com/icbcrm/resources/ICBCREDENTIALS.xlsx", "Sheet1");
-    }
+    }*/
 
-    @Test
-    public void testLoginWithValidCredentials() throws InterruptedException
+    @Test(priority = 1)
+    public void testLogin() throws InterruptedException, IllegalArgumentException
     {
         switch (prop.getProperty("role"))
         {
             case "admin":
-                loginPage.loginTest(prop.getProperty("adminMailId"), prop.getProperty("adminPassword"));
+                loginPage.login(prop.getProperty("adminMailId"), prop.getProperty("adminPassword"));
             break;
             case "partner":
-                loginPage.loginTest(prop.getProperty("partnerMailId"), prop.getProperty("partnerPassword"));
+                loginPage.login(prop.getProperty("partnerMailId"), prop.getProperty("partnerPassword"));
             break;
             case "customer":
-                loginPage.loginTest(prop.getProperty("customerMailId"), prop.getProperty("customerPassword"));
+                loginPage.login(prop.getProperty("customerMailId"), prop.getProperty("customerPassword"));
             break;
             case "manager":
-                loginPage.loginTest(prop.getProperty("managerMailId"), prop.getProperty("managerPassword"));
+                loginPage.login(prop.getProperty("managerMailId"), prop.getProperty("managerPassword"));
             break;
             case "employee":
-                loginPage.loginTest(prop.getProperty("employeeMailId"), prop.getProperty("employeePassword"));
+                loginPage.login(prop.getProperty("employeeMailId"), prop.getProperty("employeePassword"));
             break;
             default:
                 throw new IllegalArgumentException("Invalid role specified in configuration!");
@@ -60,6 +65,14 @@ public class LoginTest  extends TestBase
 
         Assert.assertEquals(redirectedPage,expectedPageRedirected, "Login not successful!");
     }
+
+    @Test(priority = 2)
+    public void testClickOnServices() throws InterruptedException
+    {
+        login();
+        servicesPage.clickServicesMenu();
+    }
+
 
    /* @Test(dataProvider = "invalidLoginData")
     public void testLoginWithInvalidCredentials(String username, String password) throws InterruptedException
@@ -80,11 +93,11 @@ public class LoginTest  extends TestBase
 
         Assert.assertEquals(redirectedPage, expectedPageRedirected, "Login not successful!");
     }
+*/
 
-
-    @AfterMethod
+    @AfterTest
     public void closeBrowser()
     {
         driver.quit();
-    }*/
+    }
 }

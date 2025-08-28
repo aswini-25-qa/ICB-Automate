@@ -4,14 +4,14 @@ import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import java.io.IOException;
-
 public class TestUtil
 {
+    //Constants
     public static final long PAGE_LOAD_WAIT = 30;
     public static final long IMPLICIT_WAIT = 30;
 
-    public static void signInClick(WebDriver driver, WebElement element)
+    //JavaScript Click Method
+    public static void jsClickMethod(WebDriver driver, WebElement element)
     {
         JavascriptExecutor js = (JavascriptExecutor) driver;
         js.executeScript("arguments[0].click();", element);

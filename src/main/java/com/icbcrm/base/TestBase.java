@@ -1,13 +1,13 @@
 package com.icbcrm.base;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 
 import java.time.Duration;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Properties;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -19,9 +19,11 @@ import static com.icbcrm.util.TestUtil.PAGE_LOAD_WAIT;
 
 public class TestBase
 {
+    //Declaration of Class Members
     public static WebDriver driver;
     public static Properties prop;
 
+    //Constructor - Loads Configurations
     public TestBase() throws IllegalArgumentException
     {
         try
@@ -36,6 +38,7 @@ public class TestBase
         }
     }
 
+    //Initializes Browser
     public static void initialization()
     {
         String browser = prop.getProperty("browser").toLowerCase();
@@ -59,10 +62,12 @@ public class TestBase
                 throw new IllegalArgumentException("Invalid browser specified in configuration!");
         }
 
+        //Set Browser Properties
         driver.manage().window().maximize();
         driver.manage().deleteAllCookies();
         driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(PAGE_LOAD_WAIT));
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(IMPLICIT_WAIT));
+
         driver.get(prop.getProperty("url"));
     }
 }

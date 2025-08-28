@@ -8,11 +8,13 @@ import org.openqa.selenium.support.PageFactory;
 
 public class LoginPage extends TestBase
 {
+    //Constructor to initialize all the WebElements using Selenium’s PageFactory.
     public LoginPage()
     {
         PageFactory.initElements(driver, this);
     }
 
+    //Locate elements
     @FindBy(id="data.email")
     WebElement emailField;
 
@@ -24,12 +26,21 @@ public class LoginPage extends TestBase
 
     @FindBy(xpath = "//*[@id=\"form\"]/div[2]/div/button")
     WebElement signInButton;
+/*
+    @FindBy(xpath="/html/body/div[1]/aside/nav/ul/li[2]/ul/li[1]/a")
+    WebElement customersMenu;
 
-    public void loginTest(String email, String pass) throws InterruptedException
+    @FindBy(xpath="/html/body/div[1]/aside/nav/ul/li[2]/ul/li[3]/a")
+    WebElement partnersMenu;
+
+    @FindBy(xpath="/html/body/div[1]/aside/nav/ul/li[2]/ul/li[4]/a")
+    WebElement usersMenu;
+*/
+    public void login(String email, String pass) throws InterruptedException
     {
         emailField.sendKeys(email);
         passwordField.sendKeys(pass);
-        TestUtil.signInClick(driver, signInButton);
+        TestUtil.jsClickMethod(driver, signInButton);
         Thread.sleep(2000);
     }
 }
