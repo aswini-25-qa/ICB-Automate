@@ -6,7 +6,6 @@ import com.icbcrm.pages.ServicesPage;
 import org.testng.Assert;
 import org.testng.annotations.*;
 
-import static sun.security.jgss.GSSUtil.login;
 
 public class LoginTest  extends TestBase
 {
@@ -15,8 +14,7 @@ public class LoginTest  extends TestBase
     ServicesPage servicesPage;
 
     @BeforeMethod
-    public void openLoginPortal()
-    {
+    public void openLoginPortal() throws InterruptedException {
         initialization();
         loginPage = new LoginPage();
         servicesPage=new ServicesPage();
@@ -69,7 +67,28 @@ public class LoginTest  extends TestBase
     @Test(priority = 2)
     public void testClickOnServices() throws InterruptedException
     {
-//        login();
+        loginPage.login ( prop.getProperty("adminMailId"), prop.getProperty("adminPassword") );
+        servicesPage.clickServicesMenu();
+    }
+
+    @Test(priority = 2)
+    public void testClickOnManagers() throws InterruptedException
+    {
+        loginPage.login ( prop.getProperty("adminMailId"), prop.getProperty("adminPassword") );
+        servicesPage.clickServicesMenu();
+    }
+
+    @Test(priority = 2)
+    public void testClickOnPartners() throws InterruptedException
+    {
+        loginPage.login ( prop.getProperty("adminMailId"), prop.getProperty("adminPassword") );
+        servicesPage.clickServicesMenu();
+    }
+
+    @Test(priority = 2)
+    public void testClickOnEmployees() throws InterruptedException
+    {
+        loginPage.login ( prop.getProperty("adminMailId"), prop.getProperty("adminPassword") );
         servicesPage.clickServicesMenu();
     }
 
