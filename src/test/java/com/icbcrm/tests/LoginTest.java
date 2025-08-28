@@ -69,7 +69,7 @@ public class LoginTest  extends TestBase
     @Test(priority = 2)
     public void testClickOnServices() throws InterruptedException
     {
-        login();
+//        login();
         servicesPage.clickServicesMenu();
     }
 
